@@ -1,0 +1,23 @@
+{
+    "version": 2,
+    "name": "nplist",
+    "alias": "nplist",
+    "builds": [
+        { 
+            "src": "api/*.go", 
+            "use": "@now/go" 
+        },
+        { 
+            "src": "index.html", 
+            "use": "@now/html-minifier" 
+        },
+        { 
+            "src": "*.js", 
+            "use": "@now/static" 
+        }
+    ],
+    "routes": [
+        { "src": "/api/list", "dest": "/api/list.go" },
+        { "src": "/", "dest": "index.html" }
+    ]
+}
