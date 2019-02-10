@@ -85,10 +85,33 @@ func getServerQueueDetails() (err error) {
 	return
 }
 
+func steam64toSteam(input int64) (steamid string) {
+	legacySteamid := ((input - 76561197960265728) / 2)
+	steamid = fmt.Sprintf("STEAM_0:%d:%d", (input % 2), legacySteamid)
+	return
+}
+
+func parsePlayers() (err error) {
+	var steamIDs []string
+	for i, v := range ServerDetails.Players {
+		steamIDs = nil
+		for ii, vv := range v.Identifiers {
+			if ii == 0 {
+				hexID := strings.Replace(vv, "steam:", "0x", -1)
+				steamID, _ := strconv.ParseInt(hexID, 0, 64)
+				steamIDs = append(steamIDs, fmt.Sprintf("%d", steamID), steam64toSteam(steamID))
+			}
+		}
+		ServerDetails.Players[i].Identifiers = steamIDs
+	}
+	return
+}
+
 //List handler for now.sh /api/list route
 func List(w http.ResponseWriter, r *http.Request) {
 	getPlayerList()
 	getServerQueueDetails()
+	parsePlayers()
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(ServerDetails)
