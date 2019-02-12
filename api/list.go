@@ -13,13 +13,13 @@ import (
 )
 
 type ServerDetailsStruct struct {
-	Players
+	Players `json:"players"`
 	ServerQueue
 }
 
 type ServerQueue struct {
-	CurrentPlayers int64
-	CurrentQueue   int64
+	CurrentPlayers int64 `json:"currentPlayers"`
+	CurrentQueue   int64 `json:"currentQueue"`
 }
 
 type Players []Player
