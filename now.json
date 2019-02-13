@@ -17,7 +17,13 @@
         }
     ],
     "routes": [
-        { "src": "/api/list", "dest": "/api/list.go" },
-        { "src": "/", "dest": "index.html" }
+        { 
+            "src": "/api/list", 
+            "dest": "/api/list.go" 
+        },
+        { 
+            "src": "/", 
+            "dest": "index.html"
+        }
     ]
 }

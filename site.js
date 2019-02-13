@@ -38,20 +38,32 @@ function createPlayersTable(data) {
         newCell.appendChild(newText);
 
         newCell  = newRow.insertCell(2);          
-        newText  = document.createTextNode(`${player.name}`)
-        newCell.appendChild(newText);
+        a = document.createElement('a');
+        a.setAttribute('href',`https://steamcommunity.com/profiles/${player.identifiers[2]}`);
+        a.innerHTML = player.name;   
+        newCell.appendChild(a);
 
+        newCell  = newRow.insertCell(3);
+        a = document.createElement('a');
+        a.setAttribute('href',`http://www.nopixel.net/upload/index.php?members/${player.identifiers[4]}`);
+        a.innerHTML = player.identifiers[0];       
+        newCell.appendChild(a);
 
-        newCell  = newRow.insertCell(3);          
+        newCell  = newRow.insertCell(4);          
         newText  = document.createTextNode(`${player.identifiers[1]}`)
         newCell.appendChild(newText);
 
-
-        newCell  = newRow.insertCell(4);          
-        newText  = document.createTextNode(`${player.identifiers[0]}`)
+        newCell  = newRow.insertCell(5);          
+        newText  = document.createTextNode(`${player.identifiers[2]}`)
         newCell.appendChild(newText);
 
-        newCell  = newRow.insertCell(5);          
+        newCell  = newRow.insertCell(6);          
+        a = document.createElement('a');
+        a.setAttribute('href',`http://twitch.tv/${player.identifiers[3]}`);
+        a.innerHTML = player.identifiers[3];       
+        newCell.appendChild(a);
+
+        newCell  = newRow.insertCell(7);          
         newText  = document.createTextNode(`${player.ping}`)
         newCell.appendChild(newText);
     });
