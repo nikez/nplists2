@@ -129,7 +129,7 @@ func parsePlayers() (err error) {
 }
 
 func loadPlayersJSON() (err error) {
-	jsonFile, err := jsonGet.Get("https://gist.githubusercontent.com/xtda/acd2d08565e90a896507f90e2c37f2dc/raw/3e77e0968458401da1b6abfd9ea04e49c80bac35/nopixelplayers.json")
+	jsonFile, err := jsonGet.Get("https://gist.githubusercontent.com/xtda/acd2d08565e90a896507f90e2c37f2dc/raw/43bd1e48fc549a42eee087975af3a504f7d4742c/nopixelplayers.json")
 	if err != nil {
 		return
 	}
