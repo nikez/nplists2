@@ -37,7 +37,7 @@ type Player struct {
 type Nopixeldata []NoPixelPlayer
 
 type NoPixelPlayer struct {
-	ID        string `json:"id"`
+	ID        int    `json:"id"`
 	Name      string `json:"name"`
 	NoPixelID string `json:"noPixelID"`
 	SteamID   string `json:"steamID"`
@@ -199,7 +199,7 @@ func getDiscordID(discordID string) (user Member, err error) {
 func List(w http.ResponseWriter, r *http.Request) {
 	err := loadPlayersJSON()
 	if err != nil {
-		fmt.Fprintf(w, "failed to load JSON file")
+		fmt.Fprintf(w, "failed to load JSON file %v", err)
 		return
 	}
 	getPlayerList()
