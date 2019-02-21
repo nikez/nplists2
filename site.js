@@ -62,21 +62,6 @@ function createPlayersTable(data) {
         newCell.appendChild(newText);
 
         newCell = newRow.insertCell(6);
-        a = document.createElement('a');
-        a.setAttribute('href', `http://twitch.tv/${player.identifiers[3]}`);
-        a.innerHTML = player.identifiers[3];
-        newCell.appendChild(a);
-
-
-        newCell = newRow.insertCell(7);
-        if (!player.identifiers[5]) {
-            player.identifiers[5] = ""
-        }
-        a = document.createTextNode(player.identifiers[5]);
-
-        newCell.appendChild(a);
-
-        newCell = newRow.insertCell(8);
         newText = document.createTextNode(`${player.ping}`)
         newCell.appendChild(newText);
     });

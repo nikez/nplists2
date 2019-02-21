@@ -44,16 +44,6 @@ type NoPixelPlayer struct {
 	Twitch    string `json:"twitch"`
 }
 
-type Discord struct {
-	Members []Member `json:"members"`
-}
-
-type Member struct {
-	Username      string `json:"username"`
-	Discriminator string `json:"discriminator"`
-	ID            string `json:"id"`
-}
-
 var (
 	jsonGet = &http.Client{Timeout: 10 * time.Second}
 	//ServerAddress to connect to
@@ -134,18 +124,6 @@ func parsePlayers() (err error) {
 					p.Twitch,
 					p.NoPixelID)
 			}
-			if ii > 1 {
-				if strings.HasPrefix(vv, "discord:") {
-					discordID := strings.Replace(vv, "discord:", "", 1)
-
-					resp, err := getDiscordID(discordID)
-					if err != nil {
-						fmt.Printf("ERROR: %s\n", err)
-					}
-					fmt.Println(resp)
-					steamIDs = append(steamIDs, fmt.Sprintf("%s#%s", resp.Username, resp.Discriminator))
-				}
-			}
 		}
 		ServerDetails.Players[i].Identifiers = steamIDs
 	}
@@ -168,28 +146,6 @@ func getPlayerNoPixelInformation(id string) (p NoPixelPlayer) {
 	for i := range NoPixelData {
 		if NoPixelData[i].SteamID == id {
 			return NoPixelData[i]
-		}
-	}
-	return
-}
-
-func loadDiscordData() (err error) {
-	discord, err := jsonGet.Get("https://discordapp.com/api/servers/491616686928166912/embed.json")
-
-	if err != nil {
-		return
-	}
-	err = json.NewDecoder(discord.Body).Decode(&DiscordData)
-	if err != nil {
-		return err
-	}
-	return
-}
-
-func getDiscordID(discordID string) (user Member, err error) {
-	for i := range DiscordData.Members {
-		if DiscordData.Members[i].ID == discordID {
-			return DiscordData.Members[i], nil
 		}
 	}
 	return
