@@ -52,8 +52,6 @@ var (
 	ServerDetails = &ServerDetailsStruct{}
 	//NoPixelData struct
 	NoPixelData Nopixeldata
-	//
-	DiscordData Discord
 )
 
 //GetPlayerList sends HTTP get request to server to get list of players
