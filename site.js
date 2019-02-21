@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 async function getPlayerData() {
-    let request = await fetch('https://nplist.now.sh/api/list');
+    let request = await fetch('/api/list');
     if (request.status == 200) {
         let data = await request.json();
         return data;
@@ -67,7 +67,16 @@ function createPlayersTable(data) {
         a.innerHTML = player.identifiers[3];
         newCell.appendChild(a);
 
+
         newCell = newRow.insertCell(7);
+        if (!player.identifiers[5]) {
+            player.identifiers[5] = ""
+        }
+        a = document.createTextNode(player.identifiers[5]);
+
+        newCell.appendChild(a);
+
+        newCell = newRow.insertCell(8);
         newText = document.createTextNode(`${player.ping}`)
         newCell.appendChild(newText);
     });
@@ -99,8 +108,8 @@ function loadStyle() {
 
 function setDarkMode(e) {
     e.preventDefault();
-    darkmode = document.getElementById('darkmode'); 
-    if(darkmode) {
+    darkmode = document.getElementById('darkmode');
+    if (darkmode) {
         return
     }
     localStorage.setItem('style', 'dark')
@@ -123,4 +132,4 @@ function setLightMode(e) {
         darkmode.parentNode.removeChild(darkmode);
     }
     loadStyle();
-} 
+}

@@ -45,10 +45,13 @@ type NoPixelPlayer struct {
 }
 
 type Discord struct {
+	Members []Member `json:"members"`
+}
+
+type Member struct {
 	Username      string `json:"username"`
 	Discriminator string `json:"discriminator"`
 	ID            string `json:"id"`
-	Avatar        string `json:"avatar"`
 }
 
 var (
@@ -59,6 +62,8 @@ var (
 	ServerDetails = &ServerDetailsStruct{}
 	//NoPixelData struct
 	NoPixelData Nopixeldata
+	//
+	DiscordData Discord
 )
 
 //GetPlayerList sends HTTP get request to server to get list of players
@@ -129,6 +134,18 @@ func parsePlayers() (err error) {
 					p.Twitch,
 					p.NoPixelID)
 			}
+			if ii > 1 {
+				if strings.HasPrefix(vv, "discord:") {
+					discordID := strings.Replace(vv, "discord:", "", 1)
+
+					resp, err := getDiscordID(discordID)
+					if err != nil {
+						fmt.Printf("ERROR: %s\n", err)
+					}
+					fmt.Println(resp)
+					steamIDs = append(steamIDs, fmt.Sprintf("%s#%s", resp.Username, resp.Discriminator))
+				}
+			}
 		}
 		ServerDetails.Players[i].Identifiers = steamIDs
 	}
@@ -156,6 +173,28 @@ func getPlayerNoPixelInformation(id string) (p NoPixelPlayer) {
 	return
 }
 
+func loadDiscordData() (err error) {
+	discord, err := jsonGet.Get("https://discordapp.com/api/servers/491616686928166912/embed.json")
+
+	if err != nil {
+		return
+	}
+	err = json.NewDecoder(discord.Body).Decode(&DiscordData)
+	if err != nil {
+		return err
+	}
+	return
+}
+
+func getDiscordID(discordID string) (user Member, err error) {
+	for i := range DiscordData.Members {
+		if DiscordData.Members[i].ID == discordID {
+			return DiscordData.Members[i], nil
+		}
+	}
+	return
+}
+
 //List handler for now.sh /api/list route
 func List(w http.ResponseWriter, r *http.Request) {
 	err := loadPlayersJSON()
@@ -164,6 +203,7 @@ func List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	getPlayerList()
+	loadDiscordData()
 	getServerQueueDetails()
 	parsePlayers()
 	w.Header().Set("Content-Type", "application/json")
