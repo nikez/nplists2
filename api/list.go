@@ -44,6 +44,13 @@ type NoPixelPlayer struct {
 	Twitch    string `json:"twitch"`
 }
 
+type Discord struct {
+	Username      string `json:"username"`
+	Discriminator string `json:"discriminator"`
+	ID            string `json:"id"`
+	Avatar        string `json:"avatar"`
+}
+
 var (
 	jsonGet = &http.Client{Timeout: 10 * time.Second}
 	//ServerAddress to connect to
@@ -129,7 +136,7 @@ func parsePlayers() (err error) {
 }
 
 func loadPlayersJSON() (err error) {
-	jsonFile, err := jsonGet.Get("https://gist.githubusercontent.com/xtda/acd2d08565e90a896507f90e2c37f2dc/raw/43bd1e48fc549a42eee087975af3a504f7d4742c/nopixelplayers.json")
+	jsonFile, err := jsonGet.Get("https://nplist.now.sh/players.json")
 	if err != nil {
 		return
 	}

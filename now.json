@@ -14,12 +14,20 @@
         { 
             "src": "*.js", 
             "use": "@now/static" 
+        },
+        {
+            "src": "players.json",
+            "use": "@now/static" 
         }
     ],
     "routes": [
         { 
             "src": "/api/list", 
-            "dest": "/api/list.go" 
+            "dest": "/api/list.go" ,
+            "headers":
+            {
+                "Access-Control-Allow-Origin": "*"
+            }
         },
         { 
             "src": "/", 
