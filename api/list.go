@@ -159,7 +159,6 @@ func List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	getPlayerList()
-	loadDiscordData()
 	getServerQueueDetails()
 	parsePlayers()
 	w.Header().Set("Content-Type", "application/json")
